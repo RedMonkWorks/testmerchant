@@ -1,0 +1,26 @@
+[
+  {
+    "id": "1",
+    "title": "Plan 1",
+    "delivery": "3 days",
+    "percent": "10%"
+  },
+  {
+    "id": 2,
+    "title": "Plan 2",
+    "delivery": "5 days",
+    "percent": "5%"
+  },
+  {
+    "id": 3,
+    "title": "Plan 3",
+    "delivery": "2-6 days",
+    "percent": "15%"
+  },
+  {
+    "id": 4,
+    "title": "Plan 4",
+    "delivery": "2-10 days",
+    "percent": "20%"
+  }
+]

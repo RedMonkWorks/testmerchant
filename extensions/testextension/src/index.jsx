@@ -15,6 +15,7 @@ import {
   useSessionToken,
   useLocale,
 } from "@shopify/admin-ui-extensions-react";
+import { swymData, setSwymData } from "./swym";
 
 const translations = {
   de: {
@@ -132,9 +133,9 @@ function Create() {
   const [deliveryFrequency, setDeliveryFrequency] = useState("");
 
   const onPrimaryAction = useCallback(async () => {
-    const token = await getSessionToken();
+    // const token = await getSessionToken();
 
-    // Here, send the form data to your app server to create the new plan.
+    console.log(planTitle);
 
     done();
   }, [getSessionToken, done]);
@@ -149,6 +150,36 @@ function Create() {
     ),
     [onPrimaryAction, close]
   );
+
+  const onHandleTitleChange = (event) => {
+    // console.log(event);
+    setPlanTitle(event);
+  };
+
+  const onHandleDeliveryChange = (event) => {
+    // console.log(event);
+    setDeliveryFrequency(event);
+  };
+
+  const onHandlePercentChange = (event) => {
+    // console.log(event);
+    setPercentageOff(event);
+  };
+
+  const onHandleClick = async () => {
+    // console.log(planTitle);
+    // console.log(deliveryFrequency);
+    // console.log(percentageOff);
+
+    const id = swymData.length + 1;
+
+    setSwymData({
+      id: id,
+      title: planTitle,
+      delivery: deliveryFrequency,
+      percent: percentageOff,
+    });
+  };
 
   return (
     <>
@@ -165,7 +196,7 @@ function Create() {
         <TextField
           label="Plan title"
           value={planTitle}
-          onChange={setPlanTitle}
+          onChange={onHandleTitleChange}
         />
       </Card>
 
@@ -175,18 +206,21 @@ function Create() {
             type="number"
             label="Delivery frequency (in weeks)"
             value={deliveryFrequency}
-            onChange={setDeliveryFrequency}
+            onChange={onHandleDeliveryChange}
           />
           <TextField
             type="number"
             label="Percentage off (%)"
             value={percentageOff}
-            onChange={setPercentageOff}
+            onChange={onHandlePercentChange}
           />
         </InlineStack>
       </Card>
 
-      {cachedActions}
+      <InlineStack inlineAlignment="trailing">
+        <Button title="Cancel" />
+        <Button title="Create Plan" kind="primary" onPress={onHandleClick} />
+      </InlineStack>
     </>
   );
 }
