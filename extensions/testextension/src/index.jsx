@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useMemo,
-  useCallback,
-  useContext,
-} from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import {
   BlockStack,
   Button,
@@ -137,51 +131,12 @@ function Create() {
   const [percentageOff, setPercentageOff] = useState("");
   const [deliveryFrequency, setDeliveryFrequency] = useState("");
 
-  const onHandleTitleChange = (event) => {
-    // console.log(event);
-    setPlanTitle(event);
-  };
-
-  const onHandleDeliveryChange = (event) => {
-    // console.log(event);
-    setDeliveryFrequency(event);
-  };
-
-  const onHandlePercentChange = (event) => {
-    // console.log(event);
-    setPercentageOff(event);
-  };
-
-  // Our import
-  // const { subscriptionList, setSubscriptionList } = useContext(DataContext);
-
   const onPrimaryAction = useCallback(async () => {
     const token = await getSessionToken();
 
-    // The product and variant IDs collected from the modal form
-    let payload = {
-      productId: data.productId,
-      variantId: data.variantId,
-    };
+    // Here, send the form data to your app server to create the new plan.
 
-    // Send the form data to your app server to create the new plan.
-    const response = await fetch("https://server-url-here", {
-      headers: {
-        "any-header-key": token || "unknown token",
-      },
-      body: JSON.stringify(payload),
-    });
-
-    // If the server responds with an OK status, then refresh the UI and close the modal
-    if (response.ok) {
-      done();
-    } else {
-      console.log("Handle error.");
-    }
-
-    close();
-
-    // done();
+    done();
   }, [getSessionToken, done]);
 
   const cachedActions = useMemo(
@@ -194,12 +149,6 @@ function Create() {
     ),
     [onPrimaryAction, close]
   );
-
-  const onInputchange = (eve) => {
-    setPlanTitle(eve);
-    console.log(eve);
-    console.log(planTitle);
-  };
 
   return (
     <>
@@ -216,7 +165,7 @@ function Create() {
         <TextField
           label="Plan title"
           value={planTitle}
-          onChange={(event) => onInputchange(event)}
+          onChange={setPlanTitle}
         />
       </Card>
 
