@@ -1,0 +1,64 @@
+{% comment %} <head>
+  <link href="{{ 'style.css' | asset_url | stylesheet_tag }}" doctype="text/css" rel="stylesheet" >
+</head> {% endcomment %}
+
+<div class="app-custom" style="color: {{ block.settings.color }}">
+  <span>
+    App blocks let you build powerful integrations with online store themes!
+  </span>
+
+  <p>
+    Product :<br>
+    {{ block.settings.product.id }}<br>
+    {{ block.settings.product.handle }}<br>
+    {{ block.settings.product.variants[0].id }}<br>
+  </p>
+
+  <p>{{ block.settings.message }}</p>
+
+  {% assign arr = "foo bar coo" | split: " " %}
+  <p>{{ arr | json }}</p><br>
+
+  <button id="add-btn">click me!</button>
+</div>
+
+<script defer>
+  document.addEventListener('DOMContentLoaded', function() {
+    // This event will be run after the deferred scripts above, so jQuery exists now
+    var add_btn = document.querySelector('#add-btn')
+    add_btn.onclick = function(event){
+      alert("clicked")
+    }
+
+    var subs_div = document.querySelector('#add-btn')
+  });
+
+</script>
+
+{% schema %}
+  {
+    "name": "App Extension",
+    "target": "section",
+    "stylesheet": "style.css",
+    "settings": [
+      { 
+        "label": "Color", 
+        "id": "color", 
+        "type": "color", 
+        "default": "#FF0000" 
+      },
+      {
+        "type": "text",
+        "id": "message",
+        "label": "Message",
+        "default": "Hello! Swym"
+      },
+      {
+        "type": "product",
+        "id": "product",
+        "label": "Product",
+        "autofill": true
+      }
+    ]
+  }
+{% endschema %}

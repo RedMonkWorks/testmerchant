@@ -61,14 +61,13 @@ function Add() {
   const { getSessionToken } = useSessionToken();
 
   const [selectedPlans, setSelectedPlans] = useState([]);
-  const mockPlans = [
-    { name: "Subscription Plan A", id: "a" },
-    { name: "Subscription Plan B", id: "b" },
-    { name: "Subscription Plan C", id: "c" },
-  ];
+  
+  const [mockPlans, setMockPlans] = useState([])
 
   // Configure the extension container UI
   useEffect(() => {
+    setMockPlans(swymData);
+    
     setPrimaryAction({
       content: "Add to plan",
       onAction: async () => {
@@ -100,7 +99,7 @@ function Add() {
         {mockPlans.map((plan) => (
           <Checkbox
             key={plan.id}
-            label={plan.name}
+            label={plan.title}
             onChange={(checked) => {
               const plans = checked
                 ? selectedPlans.concat(plan.id)
@@ -140,16 +139,16 @@ function Create() {
     done();
   }, [getSessionToken, done]);
 
-  const cachedActions = useMemo(
-    () => (
-      <Actions
-        onPrimary={onPrimaryAction}
-        onClose={close}
-        title="Create plan"
-      />
-    ),
-    [onPrimaryAction, close]
-  );
+  // const cachedActions = useMemo(
+  //   () => (
+  //     <Actions
+  //       onPrimary={onPrimaryAction}
+  //       onClose={close}
+  //       title="Create plan"
+  //     />
+  //   ),
+  //   [onPrimaryAction, close]
+  // );
 
   const onHandleTitleChange = (event) => {
     // console.log(event);
@@ -166,7 +165,7 @@ function Create() {
     setPercentageOff(event);
   };
 
-  const onHandleClick = async () => {
+  const onHandleCreate = async () => {
     // console.log(planTitle);
     // console.log(deliveryFrequency);
     // console.log(percentageOff);
@@ -179,6 +178,12 @@ function Create() {
       delivery: deliveryFrequency,
       percent: percentageOff,
     });
+
+    done();
+  };
+
+  const onHandleClose = async () => {
+    close();
   };
 
   return (
@@ -218,8 +223,8 @@ function Create() {
       </Card>
 
       <InlineStack inlineAlignment="trailing">
-        <Button title="Cancel" />
-        <Button title="Create Plan" kind="primary" onPress={onHandleClick} />
+        <Button title="Cancel" onPress={onHandleClose}/>
+        <Button title="Create Plan" kind="primary" onPress={onHandleCreate} />
       </InlineStack>
     </>
   );
